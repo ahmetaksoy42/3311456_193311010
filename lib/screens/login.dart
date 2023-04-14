@@ -23,10 +23,10 @@ class _FormScreenState extends State<FormScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey,
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.brown,
-        title: Text("Hoşgeldiniz"),
+        title: const Text("Hoşgeldiniz"),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -43,12 +43,12 @@ class _FormScreenState extends State<FormScreen> {
                     height: 200,
                     width: 200,
                   ),
-                  SizedBox(height: 50),
+                  const SizedBox(height: 50),
                   TextFormField(
                     cursorColor: Colors.black,
                     keyboardType: TextInputType.emailAddress,
                     controller: emailController,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: "Email",
                       border: OutlineInputBorder(),
                       prefixIcon: Icon(Icons.email),
@@ -74,6 +74,8 @@ class _FormScreenState extends State<FormScreen> {
                     decoration: InputDecoration(
                       labelText: "Password",
                       border: OutlineInputBorder(),
+                      focusedBorder: const OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.green)),
                       prefixIcon: Icon(Icons.lock),
                       suffixIcon: InkWell(
                         onTap: () {
@@ -115,7 +117,7 @@ class _FormScreenState extends State<FormScreen> {
                         color: Colors.indigo,
                         borderRadius: BorderRadius.circular(5),
                       ),
-                      child: Center(
+                      child: const Center(
                         child: Text(
                           "Giriş Yapın",
                           style: TextStyle(
@@ -127,11 +129,11 @@ class _FormScreenState extends State<FormScreen> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
+                      const Text(
                         "Kayıtlı hesabınız yok mu?",
                         style: TextStyle(
                           fontSize: 16,
@@ -139,7 +141,7 @@ class _FormScreenState extends State<FormScreen> {
                       ),
                       TextButton(
                         onPressed: () {},
-                        child: Text(
+                        child: const Text(
                           "Kaydolun",
                           style: TextStyle(
                             color: Colors.indigo,

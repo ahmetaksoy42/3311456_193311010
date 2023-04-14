@@ -6,7 +6,7 @@ import '../constants/colors.dart';
 import '../todo.dart';
 
 class Home extends StatefulWidget {
-  Home({Key? key}) : super(key: key);
+  const Home({Key? key}) : super(key: key);
 
   @override
   State<Home> createState() => _HomeState();
@@ -16,6 +16,7 @@ class _HomeState extends State<Home> {
   final todosList = ToDo.todoList();
   List<ToDo> _foundToDo = [];
   final _todoController = TextEditingController();
+  bool _switchValue = false;
 
   @override
   void initState() {
@@ -23,18 +24,102 @@ class _HomeState extends State<Home> {
     super.initState();
   }
 
+  void _showAddTodoModal(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return Container(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextField(
+                  controller: _todoController,
+                  decoration: const InputDecoration(
+                    hintText: 'Listeye yeni bir madde ekleyin',
+                    border: InputBorder.none,
+                  ),
+                  autofocus: true,
+                  onSubmitted: (value) {
+                    _addToDoItem(_todoController.text);
+                    Navigator.pop(context);
+                  },
+                ),
+                const Divider(),
+                const SizedBox(height: 5),
+                ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        fixedSize: const Size(200, 50)),
+                    onPressed: () {
+                      _addToDoItem(_todoController.text);
+                    },
+                    child: const Text("Ekle"))
+              ],
+            ));
+      },
+    );
+  }
+
+  String a = "$email";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Drawer(
-        child: Text("$email"),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          _showAddTodoModal(context);
+        },
+        elevation: 4.0,
+        highlightElevation: 8.0,
+        child: Icon(Icons.add),
+        backgroundColor: Colors.green,
+        splashColor: Colors.grey,
+        mini: false,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(16.0)),
+        ),
+        heroTag: null,
       ),
-      backgroundColor: Colors.black12,
+      drawer: Drawer(
+        child: Column(
+          children: [
+            UserAccountsDrawerHeader(
+              accountName: Text(a),
+              accountEmail: Text(a),
+              currentAccountPicture: CircleAvatar(),
+            ),
+            ListTile(
+              leading: const Icon(Icons.home),
+              title: const Text("Ana Sayfa"),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.settings),
+              title: const Text("Ayarlar"),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            const Divider(),
+            SwitchListTile(
+              title: Text("Gece modu"),
+              value: _switchValue,
+              onChanged: (value) {
+                setState(() {
+                  _switchValue = value;
+                });
+              },
+            )
+          ],
+        ),
+      ),
+      backgroundColor: Colors.white,
       appBar: _buildAppBar(),
       body: Stack(
         children: [
           Container(
-            padding: EdgeInsets.symmetric(
+            padding: const EdgeInsets.symmetric(
               horizontal: 5,
               vertical: 15,
             ),
@@ -45,11 +130,11 @@ class _HomeState extends State<Home> {
                   child: ListView(
                     children: [
                       Container(
-                        margin: EdgeInsets.only(
+                        margin: const EdgeInsets.only(
                           top: 30, //search ile text arası boşluk
                           bottom: 30, //text ile liste arasındaki boşluk
                         ),
-                        child: Text(
+                        child: const Text(
                           'Tüm Yapılacaklar',
                           textAlign: TextAlign.center,
                           style: TextStyle(
@@ -58,9 +143,9 @@ class _HomeState extends State<Home> {
                           ),
                         ),
                       ),
-                      for (ToDo todoo in _foundToDo.reversed)
+                      for (ToDo _foundToDo in _foundToDo.reversed)
                         ToDoItem(
-                          todo: todoo,
+                          todo: _foundToDo,
                           onToDoChanged: _handleToDoChange,
                           onDeleteItem: _deleteToDoItem,
                         ),
@@ -70,6 +155,7 @@ class _HomeState extends State<Home> {
               ],
             ),
           ),
+          /*
           Align(
             alignment: Alignment.bottomCenter,
             child: Row(children: [
@@ -96,12 +182,15 @@ class _HomeState extends State<Home> {
                     ],
                     borderRadius: BorderRadius.circular(5),
                   ),
+                  /*
                   child: TextField(
                     controller: _todoController,
                     decoration: InputDecoration(
                         hintText: 'Listeye yeni bir madde ekleyin',
                         border: InputBorder.none),
                   ),
+
+                   */
                 ),
               ),
               Container(
@@ -130,7 +219,7 @@ class _HomeState extends State<Home> {
                 ),
               ),
             ]),
-          ),
+          ),*/
         ],
       ),
     );
@@ -184,7 +273,7 @@ class _HomeState extends State<Home> {
       ),
       child: TextField(
         onChanged: (value) => _runFilter(value),
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
           contentPadding: EdgeInsets.all(10),
           prefixIcon: Icon(
             Icons.search,
@@ -196,6 +285,7 @@ class _HomeState extends State<Home> {
             minWidth: 25,
           ),
           border: InputBorder.none,
+          fillColor: Colors.black,
           hintText: 'Ara',
           hintStyle: TextStyle(color: myGrey),
         ),
